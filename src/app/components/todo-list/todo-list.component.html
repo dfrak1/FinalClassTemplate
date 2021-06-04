@@ -1,0 +1,35 @@
+<form [formGroup]="form"
+      (ngSubmit)="submit()">
+  <div class="form-group">
+    <label for="item">Item</label>
+    <input type="text"
+           formControlName="item"
+           name="item"
+           class="form-control">
+    <div class="alert alert-danger"
+         *ngIf="item?.errors && (item?.touched  || item?.dirty)">
+      <p *ngIf="item?.errors?.required">This is Required!</p>
+      <p *ngIf="item?.errors?.minlength">This is too short!</p>
+    </div>
+  </div>
+  <button type="submit"
+          class="btn btn-success">Add Item</button>
+</form>
+
+
+<ul class="list-unstyled">
+  <li class="alert"
+      [ngClass]="{'alert-success': item.complete, 'alert-info': !item.complete}"
+      *ngFor="let item of list">
+    <span [ngClass]="{'complete': item.complete}">{{ item.description }}</span>
+    <button class="btn btn-sm btn-danger"
+            (click)="markComplete(item)"
+            *ngIf="!item.complete">X</button>
+  </li>
+</ul>
+
+<div>
+  <button *ngIf="hasCompleted"
+          (click)="removeCompleted()"
+          class="btn btn-danger">Remove Completed</button>
+</div>
